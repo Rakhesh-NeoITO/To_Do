@@ -6,13 +6,8 @@ import TodoAdd from './TodoAdd';
 import uuid from 'react-uuid'
 
 import { useState } from 'react';
-// interface toDoObj {
-//   id:number;
-//   value: string;
-//   ischecked: boolean;
-// }
-
 function App() {
+
   const [toDos,setToDos]=useState([])
   function Add(element){
     const data={
@@ -24,13 +19,55 @@ function App() {
       setToDos([...toDos,data])
     }
   }
+  function IsChecked(id){
+    setToDos(toDos.map((element)=>{
+      return(
+        element.id === id ? {id: element.id, content:element.content, ischecked: !element.ischecked} : element
+      );
+    }))
+  }
+  function CompletedTask(){
+    return (toDos.filter((element)=>{
+      return(
+        element.ischecked
+      );
+    }).length)
+  }
+  function RemoveCompletedTask(){
+    setToDos(toDos.filter((element)=>{
+      return(
+        !element.ischecked
+      );
+    }))
+  }
+  function RemoveSelectedItem(id){
+    setToDos(toDos.filter((element)=>{
+      return(
+        element.id !== id
+      );
+    }))
+  }
+  function SelectedUpdate(id,data){
+    if(data !== ""){
+      setToDos(toDos.map((element)=>{
+        return(
+          element.id === id ? {id: element.id, content:data, ischecked: element.ischecked} : element
+        );
+      }))
+    }
+  }
+  
+
   return (
     <div className="App  w-screen flex justify-center items-center h-screen">
-     <div className='toDo text-center flex flex-col items-center w-3/4 h-2/4 bg-slate-300 rounded space-y-4'>
+     <div className='toDo text-center flex flex-col items-center w-3/4 h-3/5 bg-slate-300 rounded space-y-4'>
         <h1 className='antialiased text-3xl italic font-bold mt-8'>TO DO LIST</h1>
         <TodoAdd AddFunction={Add} />
-        {toDos.length > 0 && toDos.map((todo) => <Content key={todo.id} item={todo}/>)}
-        <ProgressBar />
+        <div className={`w-3/4 overflow-auto`}>
+        {toDos.length > 0 && toDos.map((todo) => <Content key={todo.id} item={todo} SetTODOS={IsChecked} SelectedRemove={RemoveSelectedItem} Update={SelectedUpdate}/>)}
+        
+        </div>
+        <ProgressBar  Progress={CompletedTask} total={toDos.length} Remove={RemoveCompletedTask}  />
         
      </div>
     </div>
