@@ -16,8 +16,22 @@ function App() {
       ischecked: false
     }
     if (element !== ""){
-      setToDos([...toDos,data])
+      setToDos([data,...toDos])
     }
+  }
+  const AddNew = (event) => {
+    const data={
+      id : uuid(),
+      content: event.target.value,
+      ischecked: false
+    }
+    if (event.target.value !== "" && event.key === 'Enter') {
+     
+      
+      setToDos([data,...toDos])
+      event.target.value=""
+    }
+    
   }
   function IsChecked(id){
     setToDos(toDos.map((element)=>{
@@ -62,7 +76,7 @@ function App() {
     <div className="App  w-screen flex justify-center items-center h-screen">
      <div className='toDo text-center flex flex-col items-center w-3/4 h-3/5 bg-slate-300 rounded space-y-4'>
         <h1 className='antialiased text-3xl italic font-bold mt-8'>TO DO LIST</h1>
-        <TodoAdd AddFunction={Add} />
+        <TodoAdd AddFunction={Add} handleKeyDown={AddNew}/>
         <div className={`w-3/4 overflow-auto`}>
         {toDos.length > 0 && toDos.map((todo) => <Content key={todo.id} item={todo} SetTODOS={IsChecked} SelectedRemove={RemoveSelectedItem} Update={SelectedUpdate}/>)}
         

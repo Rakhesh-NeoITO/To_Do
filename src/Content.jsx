@@ -4,7 +4,7 @@ import { BiMessageSquareEdit,BiHeartCircle } from "react-icons/bi";
 
 function Content({item,SetTODOS,SelectedRemove,Update}) {
   const [ButtonClick,setButtonClick]=useState(false)
-  console.log(item)
+  
   return (
     <div className=' h-12 rounded-lg pl-2 bg-slate-600 flex flex-row text-center justify-center mt-2'>
         <input defaultChecked={item.ischecked} type="checkbox" name=""  className='h-4 w-4 my-auto' onClick={()=>{SetTODOS(item.id )}}/>
