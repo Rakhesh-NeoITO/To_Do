@@ -13,7 +13,8 @@ function App() {
     const data={
       id : uuid(),
       content: element,
-      ischecked: false
+      ischecked: false,
+    
     }
     if (element !== ""){
       setToDos([data,...toDos])
@@ -40,6 +41,7 @@ function App() {
       );
     }))
   }
+
   function CompletedTask(){
     return (toDos.filter((element)=>{
       return(
@@ -62,10 +64,11 @@ function App() {
     }))
   }
   function SelectedUpdate(id,data){
-    if(data !== ""){
+    if(data !== "" ){
       setToDos(toDos.map((element)=>{
+        console.log(element)
         return(
-          element.id === id ? {id: element.id, content:data, ischecked: element.ischecked} : element
+          element.id === id ? {id: element.id, content:data, ischecked: false } : element
         );
       }))
     }
@@ -78,7 +81,7 @@ function App() {
         <h1 className='antialiased text-3xl italic font-bold mt-8'>TO DO LIST</h1>
         <TodoAdd AddFunction={Add} handleKeyDown={AddNew}/>
         <div className={`w-3/4 overflow-auto`}>
-        {toDos.length > 0 && toDos.map((todo) => <Content key={todo.id} item={todo} SetTODOS={IsChecked} SelectedRemove={RemoveSelectedItem} Update={SelectedUpdate}/>)}
+        {toDos.length > 0 && toDos.map((todo) => <Content key={todo.id} item={todo} SetTODOS={IsChecked} SelectedRemove={RemoveSelectedItem} Update={SelectedUpdate}  />)}
         
         </div>
         <ProgressBar  Progress={CompletedTask} total={toDos.length} Remove={RemoveCompletedTask}  />
